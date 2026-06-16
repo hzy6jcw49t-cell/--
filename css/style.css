@@ -1,0 +1,1271 @@
+/* ===============================
+   Base
+================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Noto Serif JP", serif;
+  color: #2b2b2b;
+  background: url("../images/paper.jpg") repeat;
+  line-height: 1.8;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 5vw, 40px);
+}
+
+/* ===============================
+   Header
+================================= */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 110px;
+  background: url("../images/paper.jpg") repeat;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  /* overflow: hidden; */
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 12px;
+  min-width: 0;
+}
+
+.site-title {
+  font-size: 26px;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.reservation-link,
+.menu-button {
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  text-decoration: none;
+  color: #2b2b2b;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* header icon layout (予約 & メニュー) — FINAL Figma match */
+.header-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+  line-height: 1;
+}
+
+/* icon image */
+.header-icon img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  display: block;
+}
+
+/* label under icon */
+
+.header-icon span {
+  font-size: 14px;
+  letter-spacing: 0.22em;
+  color: #2b2b2b;
+  margin-top: 0;
+}
+
+/* 微調整：MENUアイコンを少し上に（ラベルと高さを揃える） */
+.header-actions .header-icon:last-child {
+  transform: translateY(-4px);
+}
+
+
+/* ===============================
+   Hero
+================================= */
+
+.hero {
+  margin-top: 110px;
+  padding: 0;
+  width: 100%;
+}
+
+.hero-visual {
+  position: relative;
+  height: calc(100vh - 110px);
+  overflow: hidden;
+  width: 100%;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  background: url("../images/hero.jpg") center center / cover no-repeat;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 140px;
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+.hero-catch {
+  font-size: 44px;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+}
+
+.hero-sub {
+  margin-top: 16px;
+  font-size: 18px;
+  letter-spacing: 0.18em;
+}
+
+/* ===============================
+   Section Base
+================================= */
+
+section {
+  padding: 140px 0;
+  position: relative;
+}
+
+/* heroだけはsectionのpaddingを打ち消す */
+.hero {
+  padding: 0;
+  width: 100%;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+.section-title {
+  font-size: 64px;
+  letter-spacing: 0.08em;
+  font-weight: 400;
+}
+
+.section-en {
+  margin-top: 16px;
+  font-size: 14px;
+  letter-spacing: 0.35em;
+  color: #a8a097;
+}
+
+/* ===============================
+   Concept
+================================= */
+
+/* セクション全体の余白（Figma寄せ） */
+.concept {
+  padding-top: 140px;
+  padding-bottom: 160px;
+}
+
+/* Concept内だけ、筆文字タイトルにする（他セクションに影響させない） */
+.concept .section-title {
+  font-family: "Yuji Boku", serif;
+  font-size: 42px;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.concept-text {
+  max-width: 720px;
+  margin: 0 auto 90px;
+  text-align: center;
+  line-height: 2.1;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+}
+
+/* 3枚ギャラリー：横スクロールが出ないようにGridで組む */
+.concept-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+  margin: 0 auto 80px;
+  max-width: 1100px;
+}
+
+.concept-item {
+  text-align: center;
+  min-width: 0;
+}
+
+.concept-thumb {
+  width: 100%;
+  aspect-ratio: 19 / 12;
+  border-radius: 0;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 24px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.concept-thumb:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+
+.concept-thumb-1 {
+  background-image: url("../images/concept1.jpg");
+}
+
+.concept-thumb-2 {
+  background-image: url("../images/concept2.jpg");
+}
+
+.concept-thumb-3 {
+  background-image: url("../images/concept3.jpg");
+}
+
+.concept-caption {
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+}
+
+.concept-button {
+  text-align: center;
+  margin-top: 60px;
+}
+
+/* Concept内のボタンだけ大きめ */
+.concept .btn-gold {
+  display: inline-block;
+  margin: 0 auto;
+  padding: 18px 48px;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  background: #e3d9c6;
+  border-radius: 50px;
+}
+
+/* ===============================
+   Two Column Sections
+================================= */
+
+.section-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 80px;
+}
+
+.section-inner.reverse {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* グローバルな.section-text制限をrooms専用に */
+.rooms .section-text {
+  max-width: 520px;
+}
+
+
+.section-visual {
+  width: 100%;
+}
+
+
+/* ===============================
+   Rooms Reset Layout
+================================= */
+
+/* Rooms Heading (Figma Match) */
+.rooms-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 56px;
+  margin-top: 0;
+  margin-bottom: 64px;
+}
+
+
+
+.rooms-heading .rooms-ja {
+  font-size: 42px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+}
+
+
+
+.rooms-en {
+  font-family: "Libre Baskerville", serif;
+  font-size: 28px;
+  letter-spacing: 0.3em;
+  opacity: 0.6;
+  line-height: 1.2;
+}
+
+.rooms {
+  padding: 120px 0 100px;
+}
+
+.rooms .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.rooms .section-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 64px;
+  align-items: center;
+}
+
+/* LEFT TEXT */
+
+.rooms-lead {
+  font-size: 22px;
+  letter-spacing: 0.06em;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.rooms-desc {
+  font-size: 15px;
+  line-height: 2.3;
+  letter-spacing: 0.04em;
+  margin-bottom: 24px;
+}
+
+/* BUTTON */
+.rooms .btn-gold {
+  width: 280px;
+  height: 60px;
+  border-radius: 40px;
+  background: #E5D3A3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rooms-main-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  overflow: hidden;
+}
+
+.rooms-main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.rooms-main-image:hover img {
+  transform: scale(1.03);
+}
+
+.rooms-main-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(245,239,230,0.45) 0%,
+    rgba(245,239,230,0.35) 20%,
+    rgba(245,239,230,0.18) 40%,
+    rgba(245,239,230,0.05) 60%,
+    rgba(245,239,230,0) 75%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* GALLERY */
+.rooms-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  max-width: 100%;
+  margin: 40px auto 0;
+  padding: 0;
+}
+
+.rooms-gallery img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.rooms-gallery img:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+
+/* ===============================
+   Onsen Section (Restore Previous PC Layout)
+================================= */
+
+.onsen {
+  padding: 140px 0;
+}
+
+/* 縦構成 */
+.onsen .section-inner {
+  display: block;
+}
+
+/* 見出し下の余白 */
+.onsen .section-header {
+  margin-bottom: 60px;
+}
+
+/* ===============================
+   Onsen Image (PC 基準：左右フル幅)
+================================= */
+
+.onsen-image {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-bottom: 100px;
+  overflow: hidden;
+}
+
+.onsen-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* ===============================
+   Onsen Text (PC)
+================================= */
+
+.onsen-text {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.onsen-text h3 {
+  font-size: 36px;
+  line-height: 1.8;
+  letter-spacing: 0.08em;
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+
+.onsen-text p {
+  font-size: 18px;
+  line-height: 2.3;
+  letter-spacing: 0.05em;
+  max-width: 730px;
+  margin: 0 auto 48px;
+}
+
+/* ボタン中央 */
+.onsen .btn-gold {
+  margin: 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  padding: 16px 40px;
+}
+
+/* ===============================
+   Onsen Mobile
+================================= */
+
+@media (max-width: 768px) {
+
+  .onsen {
+    padding: 60px 0 80px;
+  }
+
+  .onsen .section-header {
+    margin-bottom: 24px;
+  }
+
+  .onsen .section-title {
+    font-size: 28px;
+    letter-spacing: 0.12em;
+  }
+
+  /* スマホは左右ピタにしない */
+  .onsen-image {
+    width: 100%;
+    margin: 0 0 40px 0;
+  }
+
+  .onsen-image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .onsen-text {
+    padding: 0 18px;
+  }
+
+  .onsen-text h3 {
+    font-size: 20px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  .onsen-text p {
+    font-size: 14px;
+    line-height: 2.1;
+    margin-bottom: 24px;
+  }
+
+  .onsen .btn-gold {
+    height: 50px;
+    padding: 0 24px;
+  }
+}
+
+/* ===============================
+   Meal Section (Desktop Base)
+================================= */
+
+/* PCでRoomsと揃えるためさらに下げる */
+.meal {
+  padding: 120px 0 100px;
+}
+
+.meal .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.meal .section-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 64px;
+  align-items: center;
+  margin-top: 0;
+}
+
+.meal .section-text {
+  max-width: 520px;
+  margin-top: 0;
+}
+
+.meal .section-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+  .meal-ja {
+    font-size: 42px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    margin-top: 120px;
+    margin-bottom: 32px;
+  }
+
+  .meal-en {
+    display: none;
+  }
+
+.meal-lead {
+  font-size: 22px;
+  letter-spacing: 0.06em;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.meal-desc {
+  font-size: 15px;
+  line-height: 2.3;
+  letter-spacing: 0.04em;
+  margin-bottom: 24px;
+}
+
+.meal .btn-gold {
+  width: 280px;
+  height: 60px;
+  border-radius: 40px;
+  background: #E5D3A3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.meal-main-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  overflow: hidden;
+  margin-top: 0;
+}
+
+.meal-main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
+
+.meal-main-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(245,239,230,0.45) 0%,
+    rgba(245,239,230,0.35) 20%,
+    rgba(245,239,230,0.18) 40%,
+    rgba(245,239,230,0.05) 60%,
+    rgba(245,239,230,0) 75%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ===============================
+   Meal Gallery (Figma Match)
+================================= */
+
+.meal-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  margin: 40px auto 0;
+  width: 100%;
+  justify-items: center;
+  text-align: center;
+}
+
+/* 各カードを完全中央揃え */
+.meal-gallery > div {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 画像中央 */
+.meal-gallery img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* キャプション強制中央（最終上書き） */
+
+.meal-gallery > div p {
+  margin: 18px 0 0;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  text-align: center !important;
+}
+
+/* 強制キャプション中央揃え（HTML構造差異対策） */
+.meal-caption {
+  display: block;
+  width: 100%;
+  text-align: center !important;
+  margin: 18px auto 0;
+}
+
+/* ===============================
+   Access
+================================= */
+
+.access-inner {
+  display: flex;
+  gap: 80px;
+  align-items: center;
+}
+
+.access-map {
+  width: 100%;
+  height: 320px;
+  background: #ddd;
+  border-radius: 20px;
+}
+
+.access-info p {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+/* ===============================
+   Button
+================================= */
+
+.btn-gold {
+  display: inline-block;
+  padding: 16px 48px;
+  border-radius: 40px;
+  background: #e6dccb;
+  color: #2b2b2b;
+  border: 1px solid #d8cdb8;
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  transition: 0.3s;
+}
+
+.btn-gold:hover {
+  background: #cbb88a;
+  cursor: pointer;
+}
+
+/* ===============================
+   Responsive (Mobile First Step)
+================================= */
+
+/* ===============================
+   Rooms Responsive Fix (Tablet & Small Desktop)
+================================= */
+
+@media (max-width: 992px) {
+
+  .rooms .section-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .rooms-text {
+    max-width: 100%;
+  }
+
+  .rooms-main-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  .rooms-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    max-width: 100%;
+    padding: 0;
+  }
+}
+
+
+
+@media (max-width: 768px) {
+
+  .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 16px;
+  }
+
+  /* Header */
+  .site-header {
+    height: 72px;
+    padding: 0 14px;
+    overflow: hidden;
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+
+  .header-inner {
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+
+  .site-title {
+    font-size: 16px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    max-width: 55%;
+  }
+
+  .header-actions {
+    gap: 18px;
+  }
+
+  .header-icon img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .header-icon span {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    margin-top: 0;
+  }
+
+  .header-actions .header-icon:last-child {
+    transform: translateY(-2px);
+  }
+
+  /* Hero */
+  .hero {
+    margin-top: 80px;
+  }
+
+  .hero-visual {
+    height: 62vh;
+    min-height: 420px;
+  }
+
+  .hero-overlay {
+    padding-top: 60px;
+  }
+
+  .hero-catch {
+    font-size: 24px;
+  }
+
+  .hero-sub {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+  }
+
+  /* Section spacing */
+  section {
+    padding: 80px 0;
+  }
+
+  /* Concept mobile */
+  .concept {
+    padding-top: 80px;
+    padding-bottom: 120px;
+  }
+
+  .concept .section-title {
+    font-size: 32px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  .concept-text {
+    font-size: 13.5px;
+    line-height: 2.2;
+    letter-spacing: 0.03em;
+    margin-bottom: 56px;
+    padding: 0 18px;
+    text-align: center;
+  }
+
+  .concept-gallery {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    max-width: 420px;
+    margin: 0 auto 64px;
+  }
+
+  .concept-thumb {
+    border-radius: 24px;
+  }
+
+  .concept-caption {
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    margin-top: 8px;
+  }
+
+  .concept .btn-gold {
+    padding: 14px 28px;
+    font-size: 13px;
+    margin-top: 12px;
+  }
+
+  /* ===============================
+     Rooms Mobile Layout (Figma Match)
+  ================================= */
+
+  .rooms {
+    padding: 80px 0 60px;
+  }
+
+  .rooms .section-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .rooms-heading {
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .rooms-heading .rooms-ja {
+    font-size: 28px;
+  }
+
+  .rooms-en {
+    font-size: 16px;
+    letter-spacing: 0.2em;
+  }
+
+  .rooms-lead {
+    font-size: 18px;
+    line-height: 1.9;
+  }
+
+  .rooms-desc {
+    font-size: 13px;
+    line-height: 2.2;
+  }
+
+  .rooms-main-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin-top: 24px;
+  }
+
+  .rooms-main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* スマホ時：大画像のグラデーションを削除 */
+  .rooms-main-image::before {
+    display: none;
+  }
+
+  /* ギャラリーを縦並びに */
+  .rooms-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 32px;
+  }
+
+  .rooms-gallery img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  /* ボタン余白調整 */
+
+  .rooms .btn-gold {
+    writing-mode: horizontal-tb;
+    width: 70%;
+    height: 52px;
+    margin: 16px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ===============================
+     Meal Mobile Layout (Figma Exact Match)
+  ================================= */
+
+  .meal {
+    padding: 80px 0 56px;
+  }
+
+  /* 1カラム縦並び */
+  .meal .section-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  /* テキスト幅制限解除（PCの520px固定を無効化） */
+  .meal .section-text {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* メイン画像（見出しの下に配置） */
+  .meal-main-image {
+    order: 0;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  .meal-main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* モバイルではグラデーション削除 */
+  .meal-main-image::before {
+    display: none;
+  }
+
+  /* 「お料理」見出しを一番上に */
+  .meal-heading {
+    order: -1;
+    text-align: center;
+    margin-top: 0;
+  }
+
+  /* 見出し中央 */
+  .meal-heading {
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  .meal-ja {
+    font-size: 28px;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  .meal-en {
+    display: block;
+    font-size: 14px;
+    letter-spacing: 0.25em;
+    margin-bottom: 16px;
+  }
+
+  .meal-lead {
+    font-size: 18px;
+    line-height: 1.9;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .meal-desc {
+    font-size: 14px;
+    line-height: 2.1;
+    text-align: center;
+  }
+
+  /* ボタン中央配置 */
+  .meal .btn-gold {
+    width: 72%;
+    max-width: 260px;
+    height: 52px;
+    margin: 24px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: horizontal-tb;
+  }
+
+  /* ギャラリー縦並び */
+  .meal-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .meal-gallery img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+}
+
+img, video, canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+/* デフォルト（PC） */
+.rooms-btn-mobile {
+  display: none;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+
+  .rooms-btn-desktop {
+    display: none;
+  }
+
+  .rooms-btn-mobile {
+    display: block;
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  .rooms-btn-mobile .btn-gold {
+    width: 80%;
+    max-width: 280px;
+    height: 52px;
+    margin: 0 auto;
+    writing-mode: horizontal-tb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+}
+
+/* ===============================
+   Rooms Desktop Layout Fix
+================================= */
+
+@media (min-width: 769px) {
+
+  .rooms-main-image {
+    display: block;
+  }
+
+  .rooms-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 60px;
+    width: 100%;
+  }
+
+  /* PC表示は必ず3枚だけ表示（4枚目以降は強制非表示） */
+  .rooms-gallery img:nth-of-type(n+4) {
+    display: none !important;
+  }
+
+  .rooms-btn-desktop {
+    display: block;
+  }
+
+  .rooms-btn-mobile {
+    display: none;
+  }
+
+}
+
+/* ===============================
+   Onsen Text Figma Adjustment (Override)
+================================= */
+
+
+/* ===============================
+   Onsen Mobile (Figma Match)
+================================= */
+
+@media (max-width: 768px) {
+
+  .onsen {
+    padding: 56px 0 72px;
+  }
+
+  .onsen .section-header {
+    margin-bottom: 20px;
+  }
+
+  .onsen .section-title {
+    font-size: 28px;
+    letter-spacing: 0.12em;
+    margin-bottom: 0;
+  }
+
+  /* スマホ：画像を左右ピタに */
+  .onsen-image {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    margin-bottom: 48px;
+    overflow: hidden;
+  }
+
+  .onsen-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+  }
+
+  .onsen-text {
+    margin: 0 auto;
+    padding: 0 18px;
+    text-align: center;
+  }
+
+  .onsen-text h3 {
+    font-size: 20px;
+    line-height: 1.7;
+    margin: 0 0 12px;
+    letter-spacing: 0.08em;
+    font-weight: 400;
+  }
+
+  .onsen-text p {
+    font-size: 14px;
+    line-height: 2.1;
+    letter-spacing: 0.05em;
+    max-width: 100%;
+    margin: 0 auto 20px;
+  }
+
+  /* ボタン：1行固定（矢印があっても折り返さない） */
+  .onsen .btn-gold {
+    width: auto;
+    max-width: calc(100% - 36px);
+    height: 50px;
+    margin: 0 auto;
+    padding: 0 22px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.12em;
+  }
+
+}
