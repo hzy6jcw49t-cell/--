@@ -24,6 +24,24 @@ body {
   padding: 0 clamp(16px, 5vw, 40px);
 }
 
+img,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
+  scroll-behavior: smooth;
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
 /* ===============================
    Header
 ================================= */
@@ -39,7 +57,6 @@ body {
   align-items: center;
   z-index: 1000;
   border-bottom: 1px solid rgba(0,0,0,0.08);
-  /* overflow: hidden; */
   padding: 0 24px;
   box-sizing: border-box;
 }
@@ -47,19 +64,24 @@ body {
 .header-inner {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   gap: 12px;
   min-width: 0;
 }
 
 .site-title {
-  font-size: 26px;
+  font-size: 36px;
   letter-spacing: 0.08em;
   font-weight: 500;
+  line-height: 1.2;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  flex-shrink: 0;
+}
+
+.site-title-link {
+  text-decoration: none;
+  color: inherit;
   min-width: 0;
 }
 
@@ -69,7 +91,6 @@ body {
   gap: 28px;
 }
 
-.reservation-link,
 .menu-button {
   font-size: 14px;
   letter-spacing: 0.2em;
@@ -111,6 +132,91 @@ body {
 /* 微調整：MENUアイコンを少し上に（ラベルと高さを揃える） */
 .header-actions .header-icon:last-child {
   transform: translateY(-4px);
+}
+
+/* ===============================
+   Menu Drawer
+================================= */
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 43, 43, 0.45);
+  z-index: 1100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.menu-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(320px, 85vw);
+  height: 100%;
+  padding: 88px 36px 40px;
+  background: url("../images/paper.jpg") repeat;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  z-index: 1200;
+  transform: translateX(100%);
+  transition: transform 0.35s ease;
+}
+
+.menu-drawer.is-open {
+  transform: translateX(0);
+}
+
+.menu-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  font-size: 28px;
+  line-height: 1;
+  color: #2b2b2b;
+  cursor: pointer;
+}
+
+.menu-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.menu-list a {
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  color: #2b2b2b;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.menu-list a:hover {
+  opacity: 0.6;
+}
+
+/* ===============================
+   Fade-in Animation
+================================= */
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 
@@ -168,12 +274,6 @@ body {
 section {
   padding: 140px 0;
   position: relative;
-}
-
-/* heroだけはsectionのpaddingを打ち消す */
-.hero {
-  padding: 0;
-  width: 100%;
 }
 
 .section-header {
@@ -241,7 +341,6 @@ section {
 .concept-thumb {
   width: 100%;
   aspect-ratio: 19 / 12;
-  border-radius: 0;
   background-size: cover;
   background-position: center;
   margin-bottom: 24px;
@@ -277,17 +376,6 @@ section {
   margin-top: 60px;
 }
 
-/* Concept内のボタンだけ大きめ */
-.concept .btn-gold {
-  display: inline-block;
-  margin: 0 auto;
-  padding: 18px 48px;
-  font-size: 14px;
-  letter-spacing: 0.14em;
-  background: #e3d9c6;
-  border-radius: 50px;
-}
-
 /* ===============================
    Two Column Sections
 ================================= */
@@ -299,11 +387,6 @@ section {
   gap: 80px;
 }
 
-.section-inner.reverse {
-  grid-template-columns: 1fr 1fr;
-}
-
-/* グローバルな.section-text制限をrooms専用に */
 .rooms .section-text {
   max-width: 520px;
 }
@@ -323,11 +406,8 @@ section {
   display: flex;
   align-items: baseline;
   gap: 56px;
-  margin-top: 0;
   margin-bottom: 64px;
 }
-
-
 
 .rooms-heading .rooms-ja {
   font-size: 42px;
@@ -335,8 +415,6 @@ section {
   letter-spacing: 0.08em;
   line-height: 1.1;
 }
-
-
 
 .rooms-en {
   font-family: "Libre Baskerville", serif;
@@ -384,8 +462,6 @@ section {
 .rooms .btn-gold {
   width: 280px;
   height: 60px;
-  border-radius: 40px;
-  background: #E5D3A3;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -452,7 +528,7 @@ section {
 }
 
 /* ===============================
-   Onsen Section (Restore Previous PC Layout)
+   Onsen Section
 ================================= */
 
 .onsen {
@@ -525,60 +601,7 @@ section {
 }
 
 /* ===============================
-   Onsen Mobile
-================================= */
-
-@media (max-width: 768px) {
-
-  .onsen {
-    padding: 60px 0 80px;
-  }
-
-  .onsen .section-header {
-    margin-bottom: 24px;
-  }
-
-  .onsen .section-title {
-    font-size: 28px;
-    letter-spacing: 0.12em;
-  }
-
-  /* スマホは左右ピタにしない */
-  .onsen-image {
-    width: 100%;
-    margin: 0 0 40px 0;
-  }
-
-  .onsen-image img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-  }
-
-  .onsen-text {
-    padding: 0 18px;
-  }
-
-  .onsen-text h3 {
-    font-size: 20px;
-    line-height: 1.7;
-    margin-bottom: 16px;
-  }
-
-  .onsen-text p {
-    font-size: 14px;
-    line-height: 2.1;
-    margin-bottom: 24px;
-  }
-
-  .onsen .btn-gold {
-    height: 50px;
-    padding: 0 24px;
-  }
-}
-
-/* ===============================
-   Meal Section (Desktop Base)
+   Meal Section
 ================================= */
 
 /* PCでRoomsと揃えるためさらに下げる */
@@ -600,28 +623,35 @@ section {
   margin-top: 0;
 }
 
-.meal .section-text {
-  max-width: 520px;
-  margin-top: 0;
+.meal-text {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.meal-visual {
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .meal .section-text {
+  max-width: 520px;
+  margin-top: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
 
-  .meal-ja {
-    font-size: 42px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    margin-top: 120px;
-    margin-bottom: 32px;
-  }
+.meal-heading .meal-ja {
+  font-size: 42px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  margin-top: 120px;
+  margin-bottom: 32px;
+}
 
-  .meal-en {
-    display: none;
-  }
+.meal-heading .meal-en {
+  display: none;
+}
 
 .meal-lead {
   font-size: 22px;
@@ -640,11 +670,13 @@ section {
 .meal .btn-gold {
   width: 280px;
   height: 60px;
-  border-radius: 40px;
-  background: #E5D3A3;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.meal-btn-mobile {
+  display: none;
 }
 
 .meal-main-image {
@@ -711,43 +743,97 @@ section {
   margin: 0 auto;
 }
 
-/* キャプション強制中央（最終上書き） */
-
-.meal-gallery > div p {
-  margin: 18px 0 0;
-  font-size: 15px;
-  letter-spacing: 0.04em;
-  text-align: center !important;
-}
-
-/* 強制キャプション中央揃え（HTML構造差異対策） */
 .meal-caption {
   display: block;
   width: 100%;
-  text-align: center !important;
+  text-align: center;
   margin: 18px auto 0;
+  font-size: 15px;
+  letter-spacing: 0.04em;
 }
 
 /* ===============================
    Access
 ================================= */
 
-.access-inner {
-  display: flex;
-  gap: 80px;
-  align-items: center;
+.access {
+  padding: 160px 0 140px;
+}
+
+.access .section-header {
+  margin-bottom: 72px;
+}
+
+.access-lead {
+  margin-top: 24px;
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  color: #5a5349;
 }
 
 .access-map {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-bottom: 64px;
+  overflow: hidden;
+}
+
+.access-map img {
   width: 100%;
-  height: 320px;
-  background: #ddd;
-  border-radius: 20px;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.access-info {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
 .access-info p {
-  margin-bottom: 20px;
-  font-size: 18px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  line-height: 2;
+}
+
+.access-phone {
+  margin-top: 8px;
+}
+
+.access-hours {
+  margin-bottom: 0;
+}
+
+.access-phone,
+.access-hours {
+  color: #5a5349;
+}
+
+.tel-link,
+.mailto-link {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.tel-link:hover,
+.mailto-link:hover {
+  opacity: 0.6;
+}
+
+.btn-access {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 520px;
+  height: 56px;
+  margin: 48px auto 0;
+  letter-spacing: 0.16em;
 }
 
 /* ===============================
@@ -755,7 +841,9 @@ section {
 ================================= */
 
 .btn-gold {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 16px 48px;
   border-radius: 40px;
   background: #e6dccb;
@@ -764,7 +852,7 @@ section {
   text-decoration: none;
   font-size: 14px;
   letter-spacing: 0.2em;
-  transition: 0.3s;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .btn-gold:hover {
@@ -773,7 +861,15 @@ section {
 }
 
 /* ===============================
-   Responsive (Mobile First Step)
+   Rooms Button Toggle (PC default)
+================================= */
+
+.rooms-btn-mobile {
+  display: none;
+}
+
+/* ===============================
+   Responsive
 ================================= */
 
 /* ===============================
@@ -832,10 +928,10 @@ section {
   }
 
   .site-title {
-    font-size: 16px;
+    font-size: 22px;
     letter-spacing: 0.06em;
     white-space: nowrap;
-    max-width: 55%;
+    max-width: 58%;
   }
 
   .header-actions {
@@ -908,13 +1004,15 @@ section {
 
   .concept-gallery {
     grid-template-columns: 1fr;
-    gap: 36px;
-    max-width: 420px;
+    gap: 28px;
+    max-width: 100%;
     margin: 0 auto 64px;
+    padding: 0;
   }
 
   .concept-thumb {
-    border-radius: 24px;
+    border-radius: 0;
+    aspect-ratio: 16 / 10;
   }
 
   .concept-caption {
@@ -926,7 +1024,6 @@ section {
   .concept .btn-gold {
     padding: 14px 28px;
     font-size: 13px;
-    margin-top: 12px;
   }
 
   /* ===============================
@@ -944,8 +1041,49 @@ section {
   }
 
   .rooms-heading {
-    gap: 20px;
+    gap: 16px;
     margin-bottom: 32px;
+    width: 100%;
+  }
+
+  .rooms-heading::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(43, 43, 43, 0.22);
+    align-self: center;
+    min-width: 32px;
+  }
+
+  .meal-heading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  .meal-heading::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(43, 43, 43, 0.22);
+    align-self: center;
+    min-width: 32px;
+  }
+
+  .meal-heading .meal-ja,
+  .meal-heading .meal-en {
+    display: inline;
+    margin: 0;
+  }
+
+  .meal-heading .meal-en {
+    font-family: "Libre Baskerville", serif;
+    font-size: 16px;
+    letter-spacing: 0.2em;
+    opacity: 0.6;
   }
 
   .rooms-heading .rooms-ja {
@@ -1002,7 +1140,6 @@ section {
   /* ボタン余白調整 */
 
   .rooms .btn-gold {
-    writing-mode: horizontal-tb;
     width: 70%;
     height: 52px;
     margin: 16px auto 0;
@@ -1011,30 +1148,34 @@ section {
     justify-content: center;
   }
 
-  /* ===============================
-     Meal Mobile Layout (Figma Exact Match)
-  ================================= */
-
+  /* Meal */
   .meal {
     padding: 80px 0 56px;
   }
 
-  /* 1カラム縦並び */
   .meal .section-inner {
     display: flex;
     flex-direction: column;
     gap: 28px;
   }
 
-  /* テキスト幅制限解除（PCの520px固定を無効化） */
-  .meal .section-text {
+  .meal-text,
+  .meal-visual {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .meal-visual {
+    order: 1;
+  }
+
+  .meal-text {
+    order: 2;
     max-width: 100%;
     width: 100%;
   }
 
-  /* メイン画像（見出しの下に配置） */
   .meal-main-image {
-    order: 0;
     width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
@@ -1046,35 +1187,19 @@ section {
     object-fit: cover;
   }
 
-  /* モバイルではグラデーション削除 */
   .meal-main-image::before {
     display: none;
   }
 
-  /* 「お料理」見出しを一番上に */
-  .meal-heading {
-    order: -1;
-    text-align: center;
-    margin-top: 0;
-  }
-
-  /* 見出し中央 */
-  .meal-heading {
-    text-align: center;
-    margin-top: 8px;
-  }
-
-  .meal-ja {
+  .meal-heading .meal-ja {
     font-size: 28px;
     letter-spacing: 0.1em;
-    margin-bottom: 8px;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
-  .meal-en {
-    display: block;
-    font-size: 14px;
-    letter-spacing: 0.25em;
-    margin-bottom: 16px;
+  .meal-heading .meal-en {
+    margin-left: 12px;
   }
 
   .meal-lead {
@@ -1090,19 +1215,23 @@ section {
     text-align: center;
   }
 
-  /* ボタン中央配置 */
-  .meal .btn-gold {
-    width: 72%;
-    max-width: 260px;
-    height: 52px;
-    margin: 24px auto 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    writing-mode: horizontal-tb;
+  .meal-btn-desktop {
+    display: none;
   }
 
-  /* ギャラリー縦並び */
+  .meal-btn-mobile {
+    display: block;
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  .meal-btn-mobile .btn-gold {
+    width: 80%;
+    max-width: 280px;
+    height: 52px;
+    margin: 0 auto;
+  }
+
   .meal-gallery {
     display: flex;
     flex-direction: column;
@@ -1115,93 +1244,8 @@ section {
     aspect-ratio: 16 / 9;
     object-fit: cover;
   }
-}
 
-img, video, canvas {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-html, body {
-  overflow-x: hidden;
-  width: 100%;
-}
-/* デフォルト（PC） */
-.rooms-btn-mobile {
-  display: none;
-}
-
-/* スマホ */
-@media (max-width: 768px) {
-
-  .rooms-btn-desktop {
-    display: none;
-  }
-
-  .rooms-btn-mobile {
-    display: block;
-    text-align: center;
-    margin: 20px 0;
-  }
-
-  .rooms-btn-mobile .btn-gold {
-    width: 80%;
-    max-width: 280px;
-    height: 52px;
-    margin: 0 auto;
-    writing-mode: horizontal-tb;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-}
-
-/* ===============================
-   Rooms Desktop Layout Fix
-================================= */
-
-@media (min-width: 769px) {
-
-  .rooms-main-image {
-    display: block;
-  }
-
-  .rooms-gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-    margin-top: 60px;
-    width: 100%;
-  }
-
-  /* PC表示は必ず3枚だけ表示（4枚目以降は強制非表示） */
-  .rooms-gallery img:nth-of-type(n+4) {
-    display: none !important;
-  }
-
-  .rooms-btn-desktop {
-    display: block;
-  }
-
-  .rooms-btn-mobile {
-    display: none;
-  }
-
-}
-
-/* ===============================
-   Onsen Text Figma Adjustment (Override)
-================================= */
-
-
-/* ===============================
-   Onsen Mobile (Figma Match)
-================================= */
-
-@media (max-width: 768px) {
-
+  /* Onsen */
   .onsen {
     padding: 56px 0 72px;
   }
@@ -1216,7 +1260,6 @@ html, body {
     margin-bottom: 0;
   }
 
-  /* スマホ：画像を左右ピタに */
   .onsen-image {
     width: 100vw;
     margin-left: calc(50% - 50vw);
@@ -1254,7 +1297,6 @@ html, body {
     margin: 0 auto 20px;
   }
 
-  /* ボタン：1行固定（矢印があっても折り返さない） */
   .onsen .btn-gold {
     width: auto;
     max-width: calc(100% - 36px);
@@ -1268,4 +1310,380 @@ html, body {
     letter-spacing: 0.12em;
   }
 
+  /* Rooms button toggle */
+  .rooms-btn-desktop {
+    display: none;
+  }
+
+  .rooms-btn-mobile {
+    display: block;
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  .rooms-btn-mobile .btn-gold {
+    width: 80%;
+    max-width: 280px;
+    height: 52px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding: 64px 0 40px;
+  }
+
+  .footer-logo {
+    font-size: 28px;
+    letter-spacing: 0.1em;
+    margin-bottom: 36px;
+  }
+
+  .footer-nav-list,
+  .footer-sub-list {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .footer-nav-list li:not(:last-child)::after,
+  .footer-sub-list li:not(:last-child)::after {
+    display: none;
+  }
+
+  .footer-nav-list a {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+  }
+
+  .footer-sub {
+    margin-top: 24px;
+  }
+
+  .footer-sub-list a {
+    font-size: 11px;
+  }
+
+  .footer-copy {
+    margin-top: 32px;
+    font-size: 11px;
+  }
+
+  /* Access */
+  .access {
+    padding: 96px 0 80px;
+  }
+
+  .access .section-header {
+    margin-bottom: 40px;
+  }
+
+  .access-lead {
+    margin-top: 16px;
+    font-size: 15px;
+  }
+
+  .access .section-title {
+    font-size: 28px;
+  }
+
+  .access-map {
+    margin-bottom: 40px;
+  }
+
+  .access-info p {
+    font-size: 14px;
+    line-height: 2;
+  }
+
+  .btn-access {
+    max-width: 100%;
+    height: 52px;
+    margin-top: 36px;
+    font-size: 13px;
+  }
+
+  .menu-drawer {
+    padding-top: 72px;
+  }
+}
+
+/* ===============================
+   Rooms Desktop Layout Fix
+================================= */
+
+@media (min-width: 769px) {
+
+  .rooms-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 60px;
+    width: 100%;
+  }
+
+  .rooms-btn-desktop {
+    display: block;
+  }
+
+  .rooms-btn-mobile {
+    display: none;
+  }
+
+  .meal-btn-desktop {
+    display: block;
+  }
+
+  .meal-btn-mobile {
+    display: none;
+  }
+
+}
+
+/* ===============================
+   Footer (Figma Match)
+================================= */
+
+.site-footer {
+  padding: 100px 0 48px;
+  background: url("../images/paper.jpg") repeat;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.footer-inner {
+  text-align: center;
+}
+
+.footer-logo {
+  font-family: "Yuji Boku", serif;
+  font-size: 40px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  margin-bottom: 48px;
+  line-height: 1.4;
+}
+
+.footer-nav-list,
+.footer-sub-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 0;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-nav-list li,
+.footer-sub-list li {
+  display: flex;
+  align-items: center;
+}
+
+.footer-nav-list li:not(:last-child)::after,
+.footer-sub-list li:not(:last-child)::after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 14px;
+  background: rgba(43, 43, 43, 0.25);
+  margin: 0 24px;
+}
+
+.footer-nav-list a {
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  color: #2b2b2b;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.footer-nav-list a:hover {
+  opacity: 0.6;
+}
+
+.footer-sub {
+  margin-top: 28px;
+}
+
+.footer-sub-list a {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: #8a8278;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.footer-sub-list a:hover {
+  opacity: 0.6;
+}
+
+.footer-sns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.footer-sns-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: #5a5349;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.footer-sns-link:hover {
+  opacity: 0.6;
+}
+
+.footer-copy {
+  margin-top: 32px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: #a8a097;
+}
+
+/* ===============================
+   Subpage
+================================= */
+
+.subpage {
+  padding: 180px 0 120px;
+}
+
+.subpage-back {
+  margin-bottom: 48px;
+}
+
+.subpage-back a {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: #8a8278;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.subpage-back a:hover {
+  opacity: 0.6;
+}
+
+.subpage-title {
+  font-size: 42px;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.subpage-en {
+  display: block;
+  font-family: "Libre Baskerville", serif;
+  font-size: 18px;
+  letter-spacing: 0.3em;
+  color: #a8a097;
+  margin-bottom: 40px;
+}
+
+.subpage-lead {
+  font-size: 20px;
+  letter-spacing: 0.06em;
+  line-height: 1.9;
+  margin-bottom: 32px;
+}
+
+.subpage-text {
+  font-size: 15px;
+  line-height: 2.3;
+  letter-spacing: 0.04em;
+  max-width: 720px;
+}
+
+.subpage-image {
+  margin: 48px 0;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.subpage-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.subpage-list {
+  list-style: none;
+  margin-top: 40px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.subpage-list li {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 24px 0;
+}
+
+.subpage-list a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: #2b2b2b;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  transition: opacity 0.3s;
+}
+
+.subpage-list a:hover {
+  opacity: 0.6;
+}
+
+.subpage-list time {
+  font-size: 13px;
+  color: #a8a097;
+  white-space: nowrap;
+}
+
+.subpage-contact dt {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: #8a8278;
+  margin-bottom: 8px;
+}
+
+.subpage-contact dd {
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  margin: 0 0 28px;
+}
+
+@media (max-width: 768px) {
+
+  .subpage {
+    padding: 120px 0 80px;
+  }
+
+  .subpage-title {
+    font-size: 28px;
+  }
+
+  .subpage-lead {
+    font-size: 17px;
+  }
+
+  .footer-sns {
+    margin-top: 28px;
+  }
+
+  .footer-copy {
+    margin-top: 24px;
+    font-size: 11px;
+  }
 }
